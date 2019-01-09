@@ -84,7 +84,9 @@ function readOptions(
 
   // Substitute any environment variable references
   for (const key in options) {
-    options[key] = options[key].replace(/\$\{([^\}]+)\}/, (_, name) => process.env[name] || '');
+    if (options[key].replace !== undefined && typeof options[key].replace === 'function') {
+      options[key] = options[key].replace(/\$\{([^\}]+)\}/, (_, name) => process.env[name] || '');
+    }
   }
 
   return options;
